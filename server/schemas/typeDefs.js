@@ -11,8 +11,20 @@ const typeDefs = gql`
     title: String!
   }
 
+  type User {
+    _id: ID
+    username: String!
+    email: String!
+    password: String!
+    savedBooks: [Book]
+  }
+
   type Query {
     books: [Book]!
+    users: [User]!
+  }
+  type Mutation {
+    addUser(username: String!, email: String!, password: String!): User
   }
 `;
 
