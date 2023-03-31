@@ -4,6 +4,8 @@ const path = require("path");
 // Require our typeDefs and resolvers for our Apollo server
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
+const { authMiddleware } = require("./utils/auth");
+
 // TODO: Remove routes and replace with GraphQL.
 // const routes = require("./routes");
 
@@ -13,6 +15,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware,
 });
 
 app.use(express.urlencoded({ extended: true }));
