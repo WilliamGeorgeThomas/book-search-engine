@@ -18,7 +18,7 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
       console.log("made it to mutation");
-      const user = User.create({ username, email, password });
+      const user = await User.create({ username, email, password });
       console.log("created user");
       const token = signToken(user);
       console.log("token created");
@@ -44,9 +44,9 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, { bookData }, context) => {
+    saveBook: async (parent, args, context) => {
       if (context.user) {
-        const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $push: { savedBooks: bookData } }, { new: true, runValidators: true });
+        const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $push: { savedBooks: args } }, { new: true, runValidators: true });
         return updatedUser;
       }
       throw new AuthenticationError("You need to be logged in!");
